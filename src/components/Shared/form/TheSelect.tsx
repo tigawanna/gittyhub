@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormOptions } from './../../../App';
+import { FormOptions } from './TheForm';
+
 
 interface TheSelectProps {
   handleChange(event: React.ChangeEvent<HTMLSelectElement>): Promise<void>;

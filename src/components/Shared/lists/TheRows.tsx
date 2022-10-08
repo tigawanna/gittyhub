@@ -1,16 +1,16 @@
 import React from 'react'
-import { PeepResponse } from './../../../pocket/config';
-import { Record } from 'pocketbase';
+
+
 
 interface TheRowsProps {
-list?:PeepResponse[]| Record[] 
+list?:any
 }
 
 export const TheRows: React.FC<TheRowsProps> = ({list}) => {
 return (
  <div className='w-full flex flex-col items-center justify-center'>
 
-{list&&list.map((item)=>{
+{list&&list.map((item:any)=>{
 return <OneRow key={item.id} item={item}/>
 })}
  </div>
@@ -19,7 +19,7 @@ return <OneRow key={item.id} item={item}/>
 
 
 interface OneRowProps {
-item:PeepResponse|Record
+item:any
 }
 
 export const OneRow: React.FC<OneRowProps> = ({item}) => {
