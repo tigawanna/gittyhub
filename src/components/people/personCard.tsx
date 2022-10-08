@@ -9,7 +9,7 @@ import { PersonCard_user$data } from "./__generated__/PersonCard_user.graphql";
 
 
 interface PersonCardProps {
-personRef:any
+personRef:any 
 }
 
 export const PersonCard: React.FC<PersonCardProps> = ({ personRef}) => {
