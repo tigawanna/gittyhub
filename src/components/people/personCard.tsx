@@ -19,6 +19,7 @@ const [yes, setYes] = useState<any>(dev?.viewerIsFollowing);
   const [followMutation, isFollowMutationInFlight] = useMutation<PersonCardfollowMutation>(FOLLOWUSER)
   const [unfollowMutation, isUnFollowMutationInFlight] = useMutation<PersonCardunfollowMutation>(UNFOLLOWUSER)
 
+  
 const followThem = (their_id: string) => {
   setYes(true);
   followMutation({variables:{input: { userId: their_id }}})
