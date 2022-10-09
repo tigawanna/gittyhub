@@ -8,7 +8,7 @@ import { FollowingPaginationQuery } from "./__generated__/FollowingPaginationQue
 import { Following_following$data } from "./__generated__/Following_following.graphql";
 import { usePaginationFragment } from "react-relay";
 import { Loading } from "../Shared/Loading";
-import { PersonCard } from "./personCard";
+import { PersonCard } from "./PersonCard";
 
 interface FollowingProps {
   refs: {
