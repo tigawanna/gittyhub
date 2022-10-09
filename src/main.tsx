@@ -29,7 +29,7 @@ console.log("error , viewer ,loading ",error,viewer,loading)
     return <LoadingShimmer/>
   }
   //@ts-ignore
-  if (viewer?.login && !error) {
+  if (viewer && !error) {
     return <AuthedView />
   }
   return <NotAuthedView />
