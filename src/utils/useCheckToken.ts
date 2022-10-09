@@ -8,7 +8,7 @@ query: DocumentNode;
   variables?: {};
 }; 
 
-type GqlErr={
+export type GqlErr={
     
     message:string,
     documentation_url: string,
@@ -60,6 +60,7 @@ const token = localValues.token
     if(res.error){
     setError(res.error);
     setLoading(false);
+    updateToken(null)
     }
     else{
     setViewer(res);
@@ -69,6 +70,7 @@ const token = localValues.token
      updateMainUser({user: null,error: e.response,});
      setError(e.response);
       setLoading(false);
+       updateToken(null);
   }
 }
 

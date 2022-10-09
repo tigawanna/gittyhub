@@ -13,7 +13,7 @@ import RelayEnvironment from './relay/RelayEnviroment'
 import { LoadingShimmer } from './components/Shared/LoadingShimmer';
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
 import ErrorBoundary from './components/Shared/ErrorBoundary';
-import { useCheckToken } from './utils/useCheckToken';
+import { GqlErr, useCheckToken } from './utils/useCheckToken';
 import { Login } from './components/auth/Login';
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -32,7 +32,7 @@ const {error,viewer,loading} = useCheckToken()
   if (viewer && !error) {
     return <AuthedView />
   }
-  return <NotAuthedView />
+  return <NotAuthedView initerror={error}/>
 }
 
 const { Suspense } = React;
@@ -82,10 +82,13 @@ export const AuthedView: React.FC<mainProps> = ({ }) => {
     </ErrorBoundary>
   );
 }
-export const NotAuthedView: React.FC<mainProps> = ({ }) => {
+interface NotAuthedProps{
+  initerror: GqlErr | null
+}
+export const NotAuthedView: React.FC<NotAuthedProps> = ({ initerror}) => {
   return (
     <div className='w-full min-h-screen h-full'>
-     <Login/>
+      <Login initerror={initerror}/>
     </div>
   );
 }

@@ -1,9 +1,10 @@
 import React from 'react'
+import { GqlErr } from '../../utils/useCheckToken';
 import TheForm from '../Shared/form/TheForm';
 import { useLocalStoreValues } from './../../store';
-import { Navigate } from "@tanstack/react-location";
-interface LoginProps {
 
+interface LoginProps {
+  initerror?: GqlErr | null
 }
 export interface FormOptions {
     field_name: string;
@@ -16,10 +17,9 @@ interface Validate {
     setError: (error: { name: string; message: string }) => void;
 }
 
-export const Login: React.FC<LoginProps> = ({}) => {
-const token = useLocalStoreValues(state => state?.localValues?.token)  
-const updateToken=useLocalStoreValues(state=>state.updateToken)
+export const Login: React.FC<LoginProps> = ({initerror}) => {
 
+const updateToken=useLocalStoreValues(state=>state.updateToken)
 const handleSubmit = async (data: any) => {
   updateToken(data.token)
 
@@ -35,8 +35,9 @@ return (
    <TheForm
      header={"SIGN-IN"}
      fields={form_input}
-    submitFn={handleSubmit}
-    validate={validate}
+     submitFn={handleSubmit}
+     validate={validate}
+     initerror={initerror}
     />
  </div>
 );

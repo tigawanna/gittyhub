@@ -2,6 +2,7 @@ import React from "react";
 import { TheInput } from "./TheInput";
 import { TheButton } from './../TheButton';
 import { TheSelect } from "./TheSelect";
+import { GqlErr } from "../../../utils/useCheckToken";
 
 type FormError = { name: string; message: string };
 export interface FormOptions {
@@ -10,6 +11,7 @@ export interface FormOptions {
   default_value: string | number
   autoComplete?:"off"|"on"
   options?: { name: string; value: string }[]
+  
 }
 
 type Props = {
@@ -17,7 +19,7 @@ type Props = {
   validate: (input: any) => boolean;
   submitFn: (input: any) => Promise<any>
   fields: FormOptions[]
-
+  initerror?: GqlErr | null
 };
 
 type State = {
@@ -38,7 +40,8 @@ class TheForm extends React.Component<Props, State> {
     this.state = {
       value: "",
       input: state_input,
-      error: { name: "", message: "" },
+      error: { name: this.props.initerror?"main":" ", 
+      message: this.props.initerror?.message as string},
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -74,7 +77,7 @@ class TheForm extends React.Component<Props, State> {
        } catch (err: any) {
        this.setError({ name: "main", message: err.message });
       }
-
+    
     }
   }
 
