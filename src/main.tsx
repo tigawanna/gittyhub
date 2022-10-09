@@ -28,7 +28,8 @@ console.log("error , viewer ,loading ",error,viewer,loading)
   if (loading){
     return <LoadingShimmer/>
   }
-  if (viewer && !error) {
+  //@ts-ignore
+  if (viewer?.login && !error) {
     return <AuthedView />
   }
   return <NotAuthedView />
@@ -54,6 +55,7 @@ const rootQueryRef= loadQuery<AppROOTVIEWERQuery>(
 );
 
 export const AuthedView: React.FC<mainProps> = ({ }) => {
+  console.log("lad authed components")
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
