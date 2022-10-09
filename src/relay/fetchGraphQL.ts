@@ -14,8 +14,8 @@ const localdata = useLocalStoreValues.getState();
       method: "POST",
       headers: {
         Authorization: `bearer ${
-          import.meta.env.VITE_TOKEN
-          // localdata.localValues.token
+          // import.meta.env.VITE_TOKEN
+          localdata.localValues.token
         }`
 ,
         "Content-Type": "application/json",
