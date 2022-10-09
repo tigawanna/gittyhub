@@ -32,11 +32,8 @@ const location = new ReactLocation({ history })
 const App: React.FC<AppProps> = ({ rootQueryRef }) => {
 
 const viewerData = usePreloadedQuery<AppROOTVIEWERQuery>(ROOTVIEWER, rootQueryRef);
-// console.log("viewer data ", viewerData)
 const data = useFragment(AppVIEWERfragmant, viewerData.viewer);
-// console.log("query data App frag ",data)
 const response = data as App_user$data
-
 
 return (
   <div className='w-full min-h-screen h-full flex flex-col justify-between

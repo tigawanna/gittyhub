@@ -6,7 +6,7 @@ import './index.css'
 import {
   RelayEnvironmentProvider,
   loadQuery,
-  graphql,
+
 
 } from 'react-relay/hooks';
 import RelayEnvironment from './relay/RelayEnviroment'
@@ -23,12 +23,12 @@ interface MainViewProps {
 
 export const MainView: React.FC<MainViewProps> = ({ isLoggedIn }) => {
 const {error,viewer,loading} = useCheckToken()
-console.log("error , viewer ,loading ",error,viewer,loading)
+
 
   if (loading){
     return <LoadingShimmer/>
   }
-  //@ts-ignore
+
   if (viewer && !error) {
     return <AuthedView />
   }
@@ -55,7 +55,7 @@ const rootQueryRef= loadQuery<AppROOTVIEWERQuery>(
 );
 
 export const AuthedView: React.FC<mainProps> = ({ }) => {
-  console.log("lad authed components")
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -85,9 +85,7 @@ export const AuthedView: React.FC<mainProps> = ({ }) => {
 export const NotAuthedView: React.FC<mainProps> = ({ }) => {
   return (
     <div className='w-full min-h-screen h-full'>
-
-main
-    <Login/>
+     <Login/>
     </div>
   );
 }
