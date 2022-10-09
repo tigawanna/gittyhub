@@ -23,6 +23,7 @@ interface MainViewProps {
 
 export const MainView: React.FC<MainViewProps> = ({ isLoggedIn }) => {
 const {error,viewer,loading} = useCheckToken()
+console.log("error , viewer ,loading ",error,viewer,loading)
 
   if (loading){
     return <LoadingShimmer/>
@@ -81,8 +82,10 @@ export const AuthedView: React.FC<mainProps> = ({ }) => {
 }
 export const NotAuthedView: React.FC<mainProps> = ({ }) => {
   return (
-    <div className='w-full minh-screen h-full'>
- <    Login/>
+    <div className='w-full min-h-screen h-full'>
+
+main
+    <Login/>
     </div>
   );
 }
