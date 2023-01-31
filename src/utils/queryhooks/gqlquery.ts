@@ -1,7 +1,7 @@
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { GraphQLClient } from "graphql-request";
 import { DocumentNode } from "graphql";
-import { useState } from 'react';
+
 
 export const useGQLQuery = (
   key: string[],

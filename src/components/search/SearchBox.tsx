@@ -2,7 +2,7 @@ import React,{useState,useContext} from "react";
 import { IconContext } from "react-icons";
 import { FaSearch , FaTimes} from "react-icons/fa";
 import { ResultsList } from "./ResultsList";
-import { UseQueryResult } from "react-query";
+import { UseQueryResult } from "@tanstack/react-query";
 import { SearchEdge } from "./types";
 
 

@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from "react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { GraphQLClient } from "graphql-request";
 import { DocumentNode } from "graphql";
 
