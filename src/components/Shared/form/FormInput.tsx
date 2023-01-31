@@ -32,7 +32,7 @@ return (
             type={"text"}
             placeholder={`enter ${prop as string}`}
             onChange={handleChange}
-            autoComplete={"off"}
+            autoComplete={"on"}
             value={input[prop] as string}
         />
 

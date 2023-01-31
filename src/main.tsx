@@ -6,8 +6,6 @@ import './index.css'
 import {
   RelayEnvironmentProvider,
   loadQuery,
-
-
 } from 'react-relay/hooks';
 import RelayEnvironment from './relay/RelayEnviroment'
 import { LoadingShimmer } from './components/Shared/LoadingShimmer';

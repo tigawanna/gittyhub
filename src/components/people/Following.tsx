@@ -35,10 +35,7 @@ export const Following: React.FC<
       <div className="h-fit w-full flex-center  flex-wrap">
         {following?.following?.edges?.map(
           (follow, index) => {
-            console.log(
-              "follow node === ",
-              follow
-            );
+ 
             return (
               <PersonCard
                 key={index}

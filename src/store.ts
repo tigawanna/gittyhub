@@ -71,7 +71,7 @@ export const useLocalStoreValues =
         }),
 
         {
-          name: "test-bed-storage",
+          name: "gittyhub",
           getStorage: () => localStorage,
         }
       )

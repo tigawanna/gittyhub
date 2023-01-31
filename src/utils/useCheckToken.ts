@@ -38,7 +38,12 @@ const [viewer,setViewer] = useState(null)
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState<GqlErr|null>(null);
 const token = localValues.token
-    const endpoint = "https://api.github.com/graphql";
+    
+
+ 
+
+ const fetchdata=async()=>{
+   const endpoint = "https://api.github.com/graphql";    //https://api.github.com/graphql
     const headers = {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -46,17 +51,17 @@ const token = localValues.token
         },
       };
     const graphQLClient = new GraphQLClient(endpoint,headers);
- 
-
- useEffect(()=>{
- const fetchdata=async()=>{
   try {
     const res = await graphQLClient.request(
       GETVIEWER
     );
+    
+ 
+    
     updateMainUser({ user: res, error: null });
     setError(null)
     setLoading(false)
+
     if(res.error){
     setError(res.error);
     setLoading(false);
@@ -73,8 +78,17 @@ const token = localValues.token
        updateToken(null);
   }
 }
+ useEffect(()=>{
 
+if(!token){
+   setLoading(false);
+   setError({message:"No token present",status:400,documentation_url:"",headers:{map:""}})
+}
+else{
 fetchdata();
+}
+
+
  },[token])
 return {viewer,error,loading}
 
