@@ -2,28 +2,31 @@ import React from 'react'
 import { graphql, PreloadedQuery, usePreloadedQuery } from 'react-relay/hooks';
 
 import { Branches } from './Branches';
-import { MakeGenerics, useMatch } from '@tanstack/react-location';
+
 import { OnerepoFullRepoQuery } from '../__generated__/onerepoFullRepoQuery.graphql';
 import { Stars } from './Stars';
 import { Languages } from './Languages';
-
-
+import { useLoaderData} from 'react-router-dom';
 interface onerepoProps {
 
 }
-type LocationGenerics = MakeGenerics<{
-  LoaderData: {
-    repoQueryRef: PreloadedQuery<OnerepoFullRepoQuery, {}>
-  };
-}>;
+// type LocationGenerics = MakeGenerics<{
+//   LoaderData: {
+//     repoQueryRef: PreloadedQuery<OnerepoFullRepoQuery, {}>
+//   };
+// }>;
 
 export const Onerepo: React.FC<onerepoProps> = ({}) => {
-const stuff = useMatch<LocationGenerics>();
+  
+const stuff = useLoaderData()
+
+
+console.log("use match ",stuff)
 const data =
     usePreloadedQuery<OnerepoFullRepoQuery>(
       FULLREPO,
       //@ts-ignore
-      stuff.data.repoQueryRef
+      stuff.repoQueryRef
     );
 
 return (

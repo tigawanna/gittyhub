@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { graphql } from "relay-runtime";
-import {
-  MakeGenerics,
-  useMatch,
-} from "@tanstack/react-location";
+
 import { AppPROFILEVIEWERQuery } from "../../__generated__/AppPROFILEVIEWERQuery.graphql";
 import {
   PreloadedQuery,
@@ -23,28 +20,26 @@ import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { Profile_user$data } from "./__generated__/Profile_user.graphql";
 import { ProfileVIEWERQuery } from "./__generated__/ProfileVIEWERQuery.graphql";
+import { useLoaderData, useLocation } from "react-router-dom";
 interface ProfileProps {}
 
-type LocationGenerics = MakeGenerics<{
-  LoaderData: {
-    userQueryRef: PreloadedQuery<
-      AppPROFILEVIEWERQuery,
-      {}
-    >;
-  };
-}>;
-export const Profile: React.FC<
-  ProfileProps
-> = ({}) => {
-  const stuff = useMatch<LocationGenerics>();
-  const [currTab, setCurrTab] =
-    useState<string>("repo");
+// type LocationGenerics = MakeGenerics<{
+//   LoaderData: {
+//     userQueryRef: PreloadedQuery<
+//       AppPROFILEVIEWERQuery,
+//       {}
+//     >;
+//   };
+// }>;
+export const Profile: React.FC<ProfileProps> = ({}) => {
+  const stuff = useLoaderData()
+  const [currTab, setCurrTab] = useState<string>("repo");
 
   const viewerData =
     usePreloadedQuery<AppPROFILEVIEWERQuery>(
       PROFILEVIEWER,
-        //@ts-ignore
-      stuff.data.userQueryRef
+        //@ts-expect-error
+      stuff.userQueryRef
     );
   const tabsInfo = useFragment(
     ProfileVIEWERfragmant,

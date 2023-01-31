@@ -18,7 +18,8 @@ import { FragmentRefs,graphql } from "relay-runtime";
 import { usePaginationFragment } from "react-relay";
 import { RepositoriesPaginationQuery } from "./__generated__/RepositoriesPaginationQuery.graphql";
 import { Repositories_repositories$data } from "./__generated__/Repositories_repositories.graphql";
-import { Link } from "@tanstack/react-location";
+import { Link } from "react-router-dom";
+
 
 dayjs.extend(relativeTime);
 interface RepositoryProps {
@@ -109,9 +110,7 @@ interface RepoCardProps {
   repo: REPONODE;
 }
 
-export const RepoCard: React.FC<
-  RepoCardProps
-> = ({ repo }) => {
+export const RepoCard: React.FC<RepoCardProps> = ({ repo }) => {
   // console.log("repo    ===  ",repo)
   // const repo_link = authedurl(repo.html_url,token)
   const vslink = `https://vscode.dev/${repo.url}`;

@@ -1,23 +1,27 @@
 
-import { Outlet } from '@tanstack/react-location';
-import { useCheckToken } from '../../utils/useCheckToken';
+
+import { GqlErr } from '../../utils/useCheckToken';
 import { Loading } from '../Shared/Loading';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 interface RootLayoutProps {
-
+    valid_token: {
+        viewer: null;
+        error: GqlErr | null;
+        loading: boolean;
+    }
 }
 
-export const RootLayout = ({}:RootLayoutProps) => {
-const { error, viewer, loading } = useCheckToken()
+export const RootLayout = ({valid_token}:RootLayoutProps) => {
+
 const navigate  = useNavigate()
 useEffect(()=>{
-if(error?.message!==""){
-navigate('/auth')
+if(!valid_token.viewer){
+    navigate('/auth')
 }
-},[error])
+}, [valid_token.viewer])
 
-if(loading){
+if (valid_token.loading){
     return (
         <div className='w-full h-full flex items-center justify-center'>
           <Loading size={20}/>

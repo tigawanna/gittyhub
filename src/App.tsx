@@ -1,6 +1,4 @@
-import {
-  createHashHistory,Outlet,
-  ReactLocation,Router, useMatch } from '@tanstack/react-location';
+
 import React from 'react'
 
 import { Toolbar } from './components/Navigation/Toolbar/Toolbar';
@@ -18,10 +16,13 @@ import { AppPROFILEVIEWERQuery } from './__generated__/AppPROFILEVIEWERQuery.gra
 import { OnerepoFullRepoQuery } from './components/repo/__generated__/onerepoFullRepoQuery.graphql';
 import { FULLREPO, Onerepo } from './components/repo/onerepo/Onerepo';
 import { Search } from './components/search/Search';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
 import { RootLayout } from './components/root/RootLayout';
 import { ReactRouterError } from './components/Shared/errorboundary/ReactRouterError';
+import { AuthLayout } from './components/auth/AuthLayout';
+import { Login } from './components/auth/Login';
+import { useCheckToken } from './utils/useCheckToken';
 
 
 
@@ -30,10 +31,11 @@ interface AppProps {
 }
 
 
-const history = createHashHistory()
-const location = new ReactLocation({ history })
+
 
 const App: React.FC<AppProps> = ({ rootQueryRef }) => {
+
+const valid_token = useCheckToken()
 
 const viewerData = usePreloadedQuery<AppROOTVIEWERQuery>(ROOTVIEWER, rootQueryRef);
 const data = useFragment(AppVIEWERfragmant, viewerData.viewer);
@@ -44,7 +46,7 @@ const response = data as App_user$data
   const ReactRouterRoutes = createBrowserRouter([
     {
       path: '/',
-      element: <RootLayout/>,
+      element: <RootLayout valid_token={valid_token}/>,
       // loader:userLoader(queryClient),
       errorElement: <ReactRouterError />,
       children: [
@@ -89,6 +91,27 @@ const response = data as App_user$data
 
         },
 
+        {
+          path: '/auth',
+          element: <AuthLayout valid_token={valid_token} />,
+          children: [
+            {
+              index: true,
+              element: <Login />,
+              // loader: deferredBlogPostsLoader,
+            },
+
+            // {
+            //   path: '/auth/signup',
+            //   element: <Signup />,
+            //   // loader: blogPostLoader,
+            // },
+            // {
+            //   path: '/auth/redirect',
+            //   element: <Redirect />,
+            // }
+          ],
+        },
         { path: "search", element: <Search /> },
 
 
@@ -112,62 +135,7 @@ return (
 
     
      <ErrorBoundary>
-     <Router location={location} 
-      routes={[
-        { path: "/", element: <Home viewerData={viewerData} viewer_info={response}/> },
-        
-        { 
-        path: "profile",
-         children:[
-           { 
-            path: ':username',
-             loader: async ({ params: { username } }) => ({
-               userQueryRef: loadQuery<AppPROFILEVIEWERQuery>(
-                 RelayEnvironment,
-                 PROFILEVIEWER, { login:username }
-               )
-               }),
-           element: <Profile /> 
-          }
-         ] 
-    
-         },
-
-        { path: "repo",
-          children:[
-        { 
-          path:":repoId",
-          loader: async ({ params: { repoId } }) => {
-          const repovars = repoId.split('--')
-          const reponame = repovars[0] 
-          const repoowner = repovars[2] 
-            return (
-            {
-            repoQueryRef: loadQuery<OnerepoFullRepoQuery>(
-              RelayEnvironment,FULLREPO, {reponame,repoowner }
-            )
-          })},
-         element: <Onerepo /> }
-        ]
-        
-        },
-
-        { path: "search", element: <Search /> },
-
-        { path: "test", element: <Test /> },
-      ]}
-     >
-
-      <div className="fixed top-0 w-full z-30 h-[10%]">
-      <Toolbar avatarUrl={response.avatarUrl} />
-      </div>
-        
-      <div className="mt-[55px] w-full ">
-      <Outlet />
-      </div>
-       
-
-    </Router>
+      <RouterProvider router={ReactRouterRoutes} />
     </ErrorBoundary>
  </div>
 );

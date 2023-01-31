@@ -1,10 +1,11 @@
-import { Link } from "@tanstack/react-location";
+
 import { useState } from "react";
 import { useFragment, useMutation } from "react-relay";
 import { graphql } from "relay-runtime";
 import { PersonCardfollowMutation } from "./__generated__/PersonCardfollowMutation.graphql";
 import { PersonCardunfollowMutation } from "./__generated__/PersonCardunfollowMutation.graphql";
 import { PersonCard_user$data } from "./__generated__/PersonCard_user.graphql";
+import { Link } from "react-router-dom";
 
 
 

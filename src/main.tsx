@@ -19,23 +19,50 @@ interface MainViewProps {
   isLoggedIn: boolean
 }
 
-export const MainView: React.FC<MainViewProps> = ({ isLoggedIn }) => {
-const {error,viewer,loading} = useCheckToken()
+// export const MainView: React.FC<MainViewProps> = ({ isLoggedIn }) => {
+// const {error,viewer,loading} = useCheckToken()
 
 
-  if (loading){
-    return <LoadingShimmer/>
-  }
+//   if (loading){
+//     return <LoadingShimmer/>
+//   }
 
-  if (viewer && !error) {
-    return <AuthedView />
-  }
-  return <NotAuthedView initerror={error}/>
-}
+//   if (viewer && !error) {
+//     return <AuthedView />
+//   }
+//   return <NotAuthedView initerror={error}/>
+// }
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: 5 * 60 * 1000,
+    },
+  },
+});
+
+const rootQueryRef = loadQuery<AppROOTVIEWERQuery>(
+  RelayEnvironment,
+  ROOTVIEWER, {}
+);
 
 const { Suspense } = React;
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-<MainView isLoggedIn={false}/>
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <RelayEnvironmentProvider environment={RelayEnvironment}>
+        <Suspense fallback={<LoadingShimmer />}>
+          <React.StrictMode>
+            <App rootQueryRef={rootQueryRef} />
+          </React.StrictMode>
+        </Suspense>
+      </RelayEnvironmentProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
 );
 
 
@@ -47,46 +74,44 @@ interface mainProps {
 
 }
 
-const rootQueryRef= loadQuery<AppROOTVIEWERQuery>(
-  RelayEnvironment,
-  ROOTVIEWER, {}
-);
 
-export const AuthedView: React.FC<mainProps> = ({ }) => {
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        retry: false,
-        staleTime: 5 * 60 * 1000,
-      },
-    },
-  });
+// const MainView: React.FC<mainProps> = ({ }) => {
 
-  return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-      <RelayEnvironmentProvider environment={RelayEnvironment}>
-        <Suspense fallback={<LoadingShimmer />}>
-          <React.StrictMode>
-            <App rootQueryRef={rootQueryRef}/>
-            </React.StrictMode>
-        </Suspense>
-      </RelayEnvironmentProvider>
-      </QueryClientProvider>
-    </ErrorBoundary>
-  );
-}
-interface NotAuthedProps{
-  initerror: GqlErr | null
-}
-export const NotAuthedView: React.FC<NotAuthedProps> = ({ initerror}) => {
-  return (
-    <div className='w-full min-h-screen h-full'>
-      <Login initerror={initerror}/>
-    </div>
-  );
-}
+//   const queryClient = new QueryClient({
+//     defaultOptions: {
+//       queries: {
+//         refetchOnWindowFocus: false,
+//         refetchOnMount: false,
+//         refetchOnReconnect: false,
+//         retry: false,
+//         staleTime: 5 * 60 * 1000,
+//       },
+//     },
+//   });
+
+//   return (
+//     <ErrorBoundary>
+//       <QueryClientProvider client={queryClient}>
+//       <RelayEnvironmentProvider environment={RelayEnvironment}>
+//         <Suspense fallback={<LoadingShimmer />}>
+//           <React.StrictMode>
+//             <App rootQueryRef={rootQueryRef}/>
+//             </React.StrictMode>
+//         </Suspense>
+//       </RelayEnvironmentProvider>
+//       </QueryClientProvider>
+//     </ErrorBoundary>
+//   );
+// }
+
+// interface NotAuthedProps{
+//   initerror: GqlErr | null
+// }
+// export const NotAuthedView: React.FC<NotAuthedProps> = ({ initerror}) => {
+//   return (
+//     <div className='w-full min-h-screen h-full'>
+//       <Login initerror={initerror}/>
+//     </div>
+//   );
+// }
