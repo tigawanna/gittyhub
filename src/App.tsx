@@ -18,6 +18,7 @@ import { AppPROFILEVIEWERQuery } from './__generated__/AppPROFILEVIEWERQuery.gra
 import { OnerepoFullRepoQuery } from './components/repo/__generated__/onerepoFullRepoQuery.graphql';
 import { FULLREPO, Onerepo } from './components/repo/onerepo/Onerepo';
 import { Search } from './components/search/Search';
+import { createBrowserRouter } from 'react-router-dom';
 
 
 
@@ -35,11 +36,22 @@ const viewerData = usePreloadedQuery<AppROOTVIEWERQuery>(ROOTVIEWER, rootQueryRe
 const data = useFragment(AppVIEWERfragmant, viewerData.viewer);
 const response = data as App_user$data
 
+
+
+  const ReactRouterRoutes = createBrowserRouter([
+    
+  ])
+
+
+
+
 return (
   <div className='w-full min-h-screen h-full flex flex-col justify-between
    dark:bg-slate-800 dark:text-white transition ease-linear delay-100 '>
 
 
+
+  
 
 
     
