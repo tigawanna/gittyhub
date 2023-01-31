@@ -1,6 +1,7 @@
-import { Link } from '@tanstack/react-location';
+
 import React from 'react'
 import { SearchEdge, SearchNode } from './types';
+import { Link } from 'react-router-dom';
 
 
 

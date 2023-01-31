@@ -10,28 +10,10 @@ import {
 import RelayEnvironment from './relay/RelayEnviroment'
 import { LoadingShimmer } from './components/Shared/LoadingShimmer';
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
-import { GqlErr, useCheckToken } from './utils/useCheckToken';
-import { Login } from './components/auth/Login';
 import { QueryClient, QueryClientProvider } from "react-query";
 import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
 
-interface MainViewProps {
-  isLoggedIn: boolean
-}
 
-// export const MainView: React.FC<MainViewProps> = ({ isLoggedIn }) => {
-// const {error,viewer,loading} = useCheckToken()
-
-
-//   if (loading){
-//     return <LoadingShimmer/>
-//   }
-
-//   if (viewer && !error) {
-//     return <AuthedView />
-//   }
-//   return <NotAuthedView initerror={error}/>
-// }
 
 const queryClient = new QueryClient({
   defaultOptions: {
