@@ -7,48 +7,30 @@ import { RootLayout } from './components/root/RootLayout';
 import { ReactRouterError } from './components/Shared/errorboundary/ReactRouterError';
 import { AuthLayout } from './components/auth/AuthLayout';
 import { Login } from './components/auth/Login';
-import { useCheckToken } from './utils/useCheckToken';
+import { GqlErr, useCheckToken } from './utils/useCheckToken';
+import { AuthRoot } from './components/auth/AuthRoot';
 
 
 
 interface AppProps {
+    valid_token: {
+        viewer: null;
+        error: GqlErr | null;
+        loading: boolean;
+    }
 }
 
-const UnAuthedApp = ({ }: AppProps) => {
-    const valid_token = useCheckToken()
-
-
-
-
-
-
-    const ReactRouterRoutes = createBrowserRouter([
+const UnAuthedApp = ({valid_token}: AppProps) => {
+  const ReactRouterRoutes = createBrowserRouter([
         {
             path: '/',
-            element: <RootLayout valid_token={valid_token} />,
+           element: <AuthLayout valid_token={valid_token} />,
             // loader:userLoader(queryClient),
             errorElement: <ReactRouterError />,
             children: [
-                {
-                    path: '/auth',
-                    element: <AuthLayout valid_token={valid_token} />,
-                    children: [
-                        {
-                            index: true, element: <Login />,
-                            // loader: deferredBlogPostsLoader,
-                        },
+            {index:true,element: <AuthRoot/>,
 
-                        // {
-                        //   path: '/auth/signup',
-                        //   element: <Signup />,
-                        //   // loader: blogPostLoader,
-                        // },
-                        // {
-                        //   path: '/auth/redirect',
-                        //   element: <Redirect />,
-                        // }
-                    ],
-                },
+          },
 
 
 

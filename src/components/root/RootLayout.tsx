@@ -1,8 +1,6 @@
 import { GqlErr } from '../../utils/useCheckToken';
 import { Toolbar } from '../Navigation/Toolbar/Toolbar';
-import { Loading } from '../Shared/Loading';
-import { useEffect } from 'react';
-import { Outlet, useLocation, useNavigate, useNavigation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigation } from 'react-router-dom';
 import { ReactProgress } from '../Shared/loaders/ReactProgress';
 
 
@@ -15,29 +13,8 @@ interface RootLayoutProps {
 }
 
 export const RootLayout = ({valid_token}:RootLayoutProps) => {
-    
     const navigation = useNavigation()
     const location = useLocation()
-
-    const navigate  = useNavigate()
-    // @ts-expect-error
-    console.log("viewer  ===== ", valid_token?.viewer?.viewer?.avatarUrl
-)
-useEffect(()=>{
-if(!valid_token.viewer){
-    navigate('/auth')
-}
-}, [valid_token.viewer])
-
-if (valid_token.loading){
-    return (
-        <div className='w-full h-full flex items-center justify-center'>
-          <Loading size={20}/>
-        </div>
-    );
-
-}
-
 
 return (
     <div className="w-full h-full dark:bg-slate-900 ">

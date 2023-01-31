@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
-import { Outlet, useNavigate } from 'react-router-dom';
-import { GqlErr, useCheckToken } from '../../utils/useCheckToken';
+import { Outlet } from 'react-router-dom';
+import { GqlErr } from '../../utils/useCheckToken';
 
 interface AuthLayoutProps {
     valid_token: {
@@ -10,16 +9,7 @@ interface AuthLayoutProps {
     }
 }
 
-export const AuthLayout = ({valid_token}:AuthLayoutProps) => {
-    const { error, viewer, loading } = useCheckToken()
-
-    const navigate = useNavigate()
-    useEffect(() => {
-        if (valid_token?.viewer) {
-            navigate('/')
-        }
-    }, [valid_token?.viewer])
-
+export const AuthLayout = ({}:AuthLayoutProps) => {
 return (
  <div className='w-full h-full flex items-center justify-center'>
     <Outlet/>

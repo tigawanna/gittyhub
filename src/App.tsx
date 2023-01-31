@@ -1,12 +1,8 @@
 
 import React from 'react'
-
-import { Toolbar } from './components/Navigation/Toolbar/Toolbar';
-
 import { graphql, loadQuery, PreloadedQuery, usePreloadedQuery } from 'react-relay/hooks';
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
 import { Home } from './components/home/Home';
-import { Test } from './components/test/Test';
 import { useFragment } from 'react-relay';
 import { App_user$data } from './__generated__/App_user.graphql';
 import { Profile } from './components/people/Profile';
@@ -22,20 +18,20 @@ import { RootLayout } from './components/root/RootLayout';
 import { ReactRouterError } from './components/Shared/errorboundary/ReactRouterError';
 import { AuthLayout } from './components/auth/AuthLayout';
 import { Login } from './components/auth/Login';
-import { useCheckToken } from './utils/useCheckToken';
+import { GqlErr } from './utils/useCheckToken';
 
 
 
 interface AppProps {
   rootQueryRef: PreloadedQuery<AppROOTVIEWERQuery, { }>
+  valid_token: {
+    viewer: null;
+    error: GqlErr | null;
+    loading: boolean;
+  }
 }
 
-
-
-
-const App: React.FC<AppProps> = ({ rootQueryRef }) => {
-
-const valid_token = useCheckToken()
+const App: React.FC<AppProps> = ({ rootQueryRef,valid_token }) => {
 
 const viewerData = usePreloadedQuery<AppROOTVIEWERQuery>(ROOTVIEWER, rootQueryRef);
 const data = useFragment(AppVIEWERfragmant, viewerData.viewer);

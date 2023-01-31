@@ -12,6 +12,8 @@ import { LoadingShimmer } from './components/Shared/LoadingShimmer';
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
+import { GqlErr, useCheckToken } from './utils/useCheckToken';
+import UnAuthedApp from './UnAuthedApp';
 
 
 
@@ -33,18 +35,69 @@ const rootQueryRef = loadQuery<AppROOTVIEWERQuery>(
 );
 
 const { Suspense } = React;
+
+interface ViewSwitcherProps {
+
+}
+
+export const ViewSwitcher = ({ }: ViewSwitcherProps) => {
+  const valid_token = useCheckToken()
+
+  if (valid_token.loading) {
+    return <LoadingShimmer />
+  }
+
+  if (valid_token.viewer && !valid_token.error) {
+    return <AuthedView valid_token={valid_token}/>
+  }
+  return <NotAuthedView valid_token={valid_token} />
+
+}
+
+
+
+interface mainProps {
+  valid_token: {
+    viewer: null;
+    error: GqlErr | null;
+    loading: boolean;
+  }
+}
+
+export const AuthedView: React.FC<mainProps> = ({valid_token}) => {
+
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <RelayEnvironmentProvider environment={RelayEnvironment}>
+          <Suspense fallback={<LoadingShimmer />}>
+            <React.StrictMode>
+              <App rootQueryRef={rootQueryRef} valid_token={valid_token} />
+            </React.StrictMode>
+          </Suspense>
+        </RelayEnvironmentProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+}
+interface NotAuthedProps {
+  valid_token: {
+    viewer: null;
+    error: GqlErr | null;
+    loading: boolean;
+  }
+}
+
+export const NotAuthedView: React.FC<NotAuthedProps> = ({valid_token}) => {
+    return <UnAuthedApp valid_token={valid_token} />
+}
+
+
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <RelayEnvironmentProvider environment={RelayEnvironment}>
-        <Suspense fallback={<LoadingShimmer />}>
-          <React.StrictMode>
-            <App rootQueryRef={rootQueryRef} />
-          </React.StrictMode>
-        </Suspense>
-      </RelayEnvironmentProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
+  <QueryClientProvider client={queryClient}>
+    <ViewSwitcher/>
+  </QueryClientProvider>
 );
 
 
@@ -52,48 +105,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 
 
 
-interface mainProps {
-
-}
 
 
 
-// const MainView: React.FC<mainProps> = ({ }) => {
-
-//   const queryClient = new QueryClient({
-//     defaultOptions: {
-//       queries: {
-//         refetchOnWindowFocus: false,
-//         refetchOnMount: false,
-//         refetchOnReconnect: false,
-//         retry: false,
-//         staleTime: 5 * 60 * 1000,
-//       },
-//     },
-//   });
-
-//   return (
-//     <ErrorBoundary>
-//       <QueryClientProvider client={queryClient}>
-//       <RelayEnvironmentProvider environment={RelayEnvironment}>
-//         <Suspense fallback={<LoadingShimmer />}>
-//           <React.StrictMode>
-//             <App rootQueryRef={rootQueryRef}/>
-//             </React.StrictMode>
-//         </Suspense>
-//       </RelayEnvironmentProvider>
-//       </QueryClientProvider>
-//     </ErrorBoundary>
-//   );
-// }
-
-// interface NotAuthedProps{
-//   initerror: GqlErr | null
-// }
-// export const NotAuthedView: React.FC<NotAuthedProps> = ({ initerror}) => {
-//   return (
-//     <div className='w-full min-h-screen h-full'>
-//       <Login initerror={initerror}/>
-//     </div>
-//   );
-// }
