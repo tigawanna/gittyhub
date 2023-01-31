@@ -10,10 +10,10 @@ import {
 import RelayEnvironment from './relay/RelayEnviroment'
 import { LoadingShimmer } from './components/Shared/LoadingShimmer';
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
-import ErrorBoundary from './components/Shared/ErrorBoundary';
 import { GqlErr, useCheckToken } from './utils/useCheckToken';
 import { Login } from './components/auth/Login';
 import { QueryClient, QueryClientProvider } from "react-query";
+import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
 
 interface MainViewProps {
   isLoggedIn: boolean

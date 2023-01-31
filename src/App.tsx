@@ -4,7 +4,7 @@ import {
 import React from 'react'
 
 import { Toolbar } from './components/Navigation/Toolbar/Toolbar';
-import ErrorBoundary from './components/Shared/ErrorBoundary';
+
 import { graphql, loadQuery, PreloadedQuery, usePreloadedQuery } from 'react-relay/hooks';
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
 import { Home } from './components/home/Home';
@@ -19,6 +19,9 @@ import { OnerepoFullRepoQuery } from './components/repo/__generated__/onerepoFul
 import { FULLREPO, Onerepo } from './components/repo/onerepo/Onerepo';
 import { Search } from './components/search/Search';
 import { createBrowserRouter } from 'react-router-dom';
+import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
+import { RootLayout } from './components/root/RootLayout';
+import { ReactRouterError } from './components/Shared/errorboundary/ReactRouterError';
 
 
 
@@ -39,8 +42,61 @@ const response = data as App_user$data
 
 
   const ReactRouterRoutes = createBrowserRouter([
-    
-  ])
+    {
+      path: '/',
+      element: <RootLayout/>,
+      // loader:userLoader(queryClient),
+      errorElement: <ReactRouterError />,
+      children: [
+        { path: "/", element: <Home viewerData={viewerData} viewer_info={response} /> },
+
+        {
+          path: "profile",
+          children: [
+            {
+              path: ':username',
+              loader: async ({ params: { username } }) => ({
+                userQueryRef: loadQuery<AppPROFILEVIEWERQuery>(
+                  RelayEnvironment,
+                  PROFILEVIEWER, { login:username??"" }
+                )
+              }),
+              element: <Profile />
+            }
+          ]
+
+        },
+
+        {
+          path: "repo",
+          children: [
+            {
+              path: ":repoId",
+              loader: async ({ params: { repoId } }) => {
+                const repovars = repoId&&repoId.split('--')
+                const reponame = (repovars&&repovars[0])??""
+                const repoowner = (repovars&&repovars[2])??""
+                return (
+                  {
+                    repoQueryRef: loadQuery<OnerepoFullRepoQuery>(
+                      RelayEnvironment, FULLREPO, { reponame, repoowner }
+                    )
+                  })
+              },
+              element: <Onerepo />
+            }
+          ]
+
+        },
+
+        { path: "search", element: <Search /> },
+
+
+
+
+      ],
+    },
+  ]);
 
 
 
@@ -59,6 +115,7 @@ return (
      <Router location={location} 
       routes={[
         { path: "/", element: <Home viewerData={viewerData} viewer_info={response}/> },
+        
         { 
         path: "profile",
          children:[
@@ -75,6 +132,7 @@ return (
          ] 
     
          },
+
         { path: "repo",
           children:[
         { 
@@ -93,7 +151,9 @@ return (
         ]
         
         },
+
         { path: "search", element: <Search /> },
+
         { path: "test", element: <Test /> },
       ]}
      >
