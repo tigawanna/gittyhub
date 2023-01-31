@@ -1,7 +1,7 @@
 import React from 'react'
 import { GqlErr } from '../../utils/useCheckToken';
-import TheForm from '../Shared/form/TheForm';
 import { useLocalStoreValues } from './../../store';
+import { FormInput } from './../Shared/form/FormInput';
 
 interface LoginProps {
   initerror?: GqlErr | null
@@ -16,29 +16,55 @@ interface Validate {
     input:{token:string|null};
     setError: (error: { name: string; message: string }) => void;
 }
+interface RequiredLoginFormFields{
+  token:string
+}
 
 export const Login: React.FC<LoginProps> = ({initerror}) => {
-
+  const [input, setInput] = React.useState<RequiredLoginFormFields>({
+    token:"",
+  });
+  const [error, setError] = React.useState({ name: "", message: "" });
 const updateToken=useLocalStoreValues(state=>state.updateToken)
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    setInput(prev => {
+      return { ...prev, [e.target.id]: e.target.value };
+    });
+    if (error.message !== "" || error.name !== "") {
+      setError({ name: "", message: "" });
+    }
+  };
+
+
 const handleSubmit = async (data: any) => {
   updateToken(data.token)
 
 };
 
-const validate = ({ input, setError }: Validate) => {
-  return true
-}
 
-const form_input: FormOptions[] = [{ field_name: "token", field_type: "text", default_value: "" },]
+const disableButton = (vals: typeof input) => {
+    if (vals.token !== "") {
+      return false;
+    }
+    return true;
+};
+
 return (
  <div className='w-full min-h-screen h-full flex-center'>
-   <TheForm
-     header={"SIGN-IN"}
-     fields={form_input}
-     submitFn={handleSubmit}
-     validate={validate}
-     initerror={initerror}
-    />
+    <form onSubmit={handleSubmit}
+      className="w-[90%] md:w-[60%] h-full rounded-xl p-5 border-2
+                flex  flex-col items-center justify-center gap-2
+                bg-white dark:bg-black">
+      <FormInput<RequiredLoginFormFields>
+        error={error}
+        handleChange={handleChange}
+        input={input}
+        prop="token"
+        label="Github personal access token"
+      />
+      
+      </form>
  </div>
 );
 }
