@@ -46,11 +46,11 @@ const response = data as App_user$data
   const ReactRouterRoutes = createBrowserRouter([
     {
       path: '/',
-      element: <RootLayout valid_token={valid_token}/>,
+      element:<RootLayout valid_token={valid_token}/>,
       // loader:userLoader(queryClient),
       errorElement: <ReactRouterError />,
       children: [
-        { path: "/", element: <Home viewerData={viewerData} viewer_info={response} /> },
+        { path: "/", element:<Home viewerData={viewerData} viewer_info={response} /> },
 
         {
           path: "profile",
@@ -63,7 +63,7 @@ const response = data as App_user$data
                   PROFILEVIEWER, { login:username??"" }
                 )
               }),
-              element: <Profile />
+              element: <Profile/>
             }
           ]
 
