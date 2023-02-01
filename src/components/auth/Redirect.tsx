@@ -6,16 +6,19 @@ import { LoaderElipse } from '../Shared/loaders/Loaders';
 import { login_url, redirect_url } from '../../utils/env';
 import { client } from '../../utils/pb/config';
 import { PBUser } from '../../utils/types/types';
+import { useLocalStoreValues } from './../../store';
+import { useNavigate } from 'react-router-dom';
 
 
 interface RedirectProps {
-  user?: PBUser;
+
 }
 
-export const Redirect = ({user}: RedirectProps) => {
+export const Redirect = ({}: RedirectProps) => {
   // //no-console("inside Redirect component")
-  const queryClient = useQueryClient();
-  // const navigate = useNavigate();
+
+  const localstore = useLocalStoreValues()
+  const navigate = useNavigate();
 
   const local_prov = JSON.parse(localStorage.getItem('provider') as string);
   const url = new URL(window.location.href);
@@ -36,25 +39,18 @@ export const Redirect = ({user}: RedirectProps) => {
           redirectUrl
       ) as unknown as OAuthResponse
       
-      console.log("oathRes === ",oauthRes)
-      const rawUser = oauthRes?.meta?.rawUser as GithubRawUser
-      //no-console("rawuser  === ",rawUser)
-      // updating user profile with provider metadata
+      console.log("adding user access token afetr oauth", oauthRes.meta?.accessToken)
+      localstore.updateToken(oauthRes.meta?.accessToken)
+     
+      // console.log("oathRes === ",oauthRes)
+      // const rawUser = oauthRes?.meta?.rawUser as GithubRawUser
+
+
+      // if (oauthRes.meta?.refreshToken){
+
   
-      const updateNotOverwrite=(field:keyof typeof oauthRes.record,value:string)=>{
-       return  oauthRes.record[field] === "" ? value : oauthRes.record[field]
-      }
-      
-      await client.collection('devs').update(oauthRes?.record.id as string, {
-        avatar: updateNotOverwrite('avatar', oauthRes.meta?.avatarUrl),
-        accesstoken: oauthRes.meta?.accessToken,
-        refreshtoken:oauthRes.meta?.refreshToken,
-        displayname: updateNotOverwrite('displayname', rawUser.name),
-        bio: updateNotOverwrite('bio',rawUser.bio ),
-        githuburl: updateNotOverwrite('githuburl', rawUser.url),
-        userame: rawUser.login.split("")[0]
-      });
-      queryClient.setQueryData(['user'], client.authStore.model);
+      //   }
+      // queryClient.setQueryData(['user'], client.authStore.model);
       ;
     };
     //no-console("redirect logic",local_prov.state , state)
@@ -77,7 +73,7 @@ export const Redirect = ({user}: RedirectProps) => {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      {user?.email?"you can go back to main now":<LoaderElipse />}
+    {localstore.localValues.token?"done navigate to main":"loading"}
     </div>
   );
 };

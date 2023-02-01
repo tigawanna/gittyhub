@@ -88,8 +88,8 @@ else{
 fetchdata();
 }
 
-
+console.log("token changed  ===== ",token)
  },[token])
-return {viewer,error,loading}
+return {viewer,error,loading,token}
 
 }

@@ -27,7 +27,7 @@ export const OAuthLogin = ({user}: OAuthLoginProps) => {
   // if (user?.email) {
   //   navigate('/');
   // }
-  console.log("redirect url ===", redirect_url)
+  // console.log("redirect url ===", redirect_url)
   const startLogin = (prov: ProvType) => {
     localStorage.removeItem('provider')
     localStorage.setItem('provider', JSON.stringify(prov));
@@ -37,11 +37,11 @@ export const OAuthLogin = ({user}: OAuthLoginProps) => {
     // params.set("scope", "myScope1 myScope2");
     url.search = params.toString();
     // //no-console("prov in button === ", prov)
-    console.log("combined url ==== >>>>>>  ", url.toString())
+    // console.log("combined url ==== >>>>>>  ", url.toString())
 
-    // if (typeof window !== 'undefined') {
-    //   window.location.href = url.toString();
-    // }
+    if (typeof window !== 'undefined') {
+      window.location.href = url.toString();
+    }
   };
   const providerIcons = {
     github: FaGithub,

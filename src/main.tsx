@@ -15,6 +15,7 @@ import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
 import { GqlErr, useCheckToken } from './utils/useCheckToken';
 import UnAuthedApp from './UnAuthedApp';
 import { LoaderElipse } from './components/Shared/loaders/Loaders';
+import { useEffect } from 'react';
 
 
 
@@ -42,13 +43,19 @@ interface ViewSwitcherProps {
 }
 
 export const ViewSwitcher = ({ }: ViewSwitcherProps) => {
-  const valid_token = useCheckToken()
+const valid_token = useCheckToken()
+// useEffect(()=>{
+
+// },[valid_token.token,valid_token.viewer])
+console.log("view switcher viewer ===>>> ",valid_token.viewer)
+console.log("view switcher loading ===>>> ",valid_token.loading)
+console.log("view switcher token ===>>> ",valid_token.token)
 
   if (valid_token.loading) {
     return <LoaderElipse />
   }
 
-  if (valid_token.viewer && !valid_token.error) {
+  if (valid_token.viewer && valid_token.token && !valid_token.loading && !valid_token.error){
     return <AuthedView valid_token={valid_token}/>
   }
   return <NotAuthedView valid_token={valid_token} />

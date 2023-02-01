@@ -26,7 +26,7 @@ const UnAuthedApp = ({valid_token}: AppProps) => {
             // loader:userLoader(queryClient),
             errorElement: <ReactRouterError />,
             children: [
-            {index:true,element: <AuthRoot/>},
+            {index:true,element: <Login/>},
             {
             path: '/auth',
                 element: <AuthLayout valid_token={valid_token} />,

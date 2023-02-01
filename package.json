@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "relay": "yarn run relay-compiler --src './src' --schema 'schema.docs.graphql' ",
-    "dev": "yarn run relay && vite ",
+    "dev": "yarn run relay && vite --port 3000 ",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "gen": "graphql-codegen --config codegen.yml"
