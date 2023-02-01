@@ -5,12 +5,13 @@ import { AiOutlineMail } from "react-icons/ai";
 import { TbPoint, TbBrandTwitter } from "react-icons/tb";
 import { MdCorporateFare } from "react-icons/md";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { TheIcon } from "../Shared/TheIcon";
+
 import { FragmentRefs, graphql } from "relay-runtime";
 import { useFragment, useMutation } from "react-relay";
 import { ProfileInfo_user$data } from "./__generated__/ProfileInfo_user.graphql";
 import { ProfileInfounfollowMutation } from "./__generated__/ProfileInfounfollowMutation.graphql";
 import { ProfileInfofollowMutation } from "./__generated__/ProfileInfofollowMutation.graphql";
+import { TheIcon } from "../Shared/wrappers/TheIcon";
 dayjs.extend(relativeTime);
 
 interface ProfileInfoProps {
@@ -37,10 +38,10 @@ const data = useFragment(ProfileInfoVIEWERfragmant, refs);
 
 
   const [yes, setYes] = useState<any>(user?.viewerIsFollowing);
-  const [followMutation, isFollowMutationInFlight] = useMutation<ProfileInfofollowMutation>(FOLLOWUSER)
-  const [unfollowMutation, isUnFollowMutationInFlight] = useMutation<ProfileInfounfollowMutation>(UNFOLLOWUSER)
-  const [active, setActive] = useState<string>("");
-  const username = user?.login as string;
+  const [followMutation] = useMutation<ProfileInfofollowMutation>(FOLLOWUSER)
+  const [unfollowMutation] = useMutation<ProfileInfounfollowMutation>(UNFOLLOWUSER)
+  // const [active, setActive] = useState<string>("");
+  // const username = user?.login as string;
   const admin = user?.isViewer;
   //console.log("og user",admin)
   const followThem = (their_id: string) => {

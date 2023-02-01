@@ -1,10 +1,11 @@
 import React from "react";
 import { FragmentRefs, graphql } from "relay-runtime";
 import { usePaginationFragment } from "react-relay";
-import { Loading } from "../Shared/Loading";
+
 import { FollowersPaginationQuery } from "./__generated__/FollowersPaginationQuery.graphql";
 import { Followers_followers$data } from "./__generated__/Followers_followers.graphql";
 import { PersonCard } from "./PersonCard";
+import { LoaderElipse } from './../Shared/loaders/Loaders';
 
 
 interface FollowersProps {
@@ -48,7 +49,7 @@ export const Followers: React.FC<FollowersProps> = ({ refs }) => {
 
       {followers_data.isLoadingNext ? (
         <div className="w-full flex-center">
-          <Loading size={20} />
+          <LoaderElipse />
         </div>
       ) : null}
     </div>

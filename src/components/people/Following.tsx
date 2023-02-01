@@ -7,8 +7,8 @@ import {
 import { FollowingPaginationQuery } from "./__generated__/FollowingPaginationQuery.graphql";
 import { Following_following$data } from "./__generated__/Following_following.graphql";
 import { usePaginationFragment } from "react-relay";
-import { Loading } from "../Shared/Loading";
 import { PersonCard } from "./PersonCard";
+import { LoaderElipse } from './../Shared/loaders/Loaders';
 
 interface FollowingProps {
   refs: {
@@ -62,7 +62,7 @@ export const Following: React.FC<
 
       {following_data.isLoadingNext ? (
         <div className="w-full flex-center">
-          <Loading size={20} />
+          <LoaderElipse/>
         </div>
       ) : null}
     </div>

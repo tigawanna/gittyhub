@@ -8,12 +8,13 @@ import {
   loadQuery,
 } from 'react-relay/hooks';
 import RelayEnvironment from './relay/RelayEnviroment'
-import { LoadingShimmer } from './components/Shared/LoadingShimmer';
+
 import { AppROOTVIEWERQuery } from './__generated__/AppROOTVIEWERQuery.graphql';
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
 import { GqlErr, useCheckToken } from './utils/useCheckToken';
 import UnAuthedApp from './UnAuthedApp';
+import { LoaderElipse } from './components/Shared/loaders/Loaders';
 
 
 
@@ -44,7 +45,7 @@ export const ViewSwitcher = ({ }: ViewSwitcherProps) => {
   const valid_token = useCheckToken()
 
   if (valid_token.loading) {
-    return <LoadingShimmer />
+    return <LoaderElipse />
   }
 
   if (valid_token.viewer && !valid_token.error) {
@@ -70,7 +71,7 @@ export const AuthedView: React.FC<mainProps> = ({valid_token}) => {
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <RelayEnvironmentProvider environment={RelayEnvironment}>
-          <Suspense fallback={<LoadingShimmer />}>
+          <Suspense fallback={<LoaderElipse />}>
             <React.StrictMode>
               <App rootQueryRef={rootQueryRef} valid_token={valid_token} />
             </React.StrictMode>

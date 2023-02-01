@@ -4,8 +4,8 @@ import { graphql, usePaginationFragment} from "react-relay/hooks";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { SiVisualstudiocode, SiGithub } from "react-icons/si";
-import { TheIcon } from "../../Shared/TheIcon";
 import { Commits_history$key, Commits_history$data } from "../__generated__/Commits_history.graphql";
+import { TheIcon } from "../../Shared/wrappers/TheIcon";
 
 dayjs.extend(relativeTime)
 interface CommitsProps {

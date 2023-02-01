@@ -6,10 +6,11 @@ import { useLocalStoreValues } from './../../../store';
 import { BsSunFill, BsFillMoonFill,BsMenuDown } from "react-icons/bs";
 import { GrHome } from "react-icons/gr";
 import { RiHome2Line } from "react-icons/ri";
-import { TheIcon } from './../../Shared/TheIcon';
+
 import { useTheme } from './../../../utils/useTheme';
 import { Search } from '../../search/Search';
 import { Link } from 'react-router-dom';
+import { TheIcon } from './../../Shared/wrappers/TheIcon';
 
 interface ToolbarProps {
 avatarUrl:string

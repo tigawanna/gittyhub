@@ -11,14 +11,16 @@ import {
   SiGithub,
 } from "react-icons/si";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { TheIcon } from "../Shared/TheIcon";
+
 import { REPONODE } from "./utils/type";
-import { Loading } from "../Shared/Loading";
+
 import { FragmentRefs,graphql } from "relay-runtime";
 import { usePaginationFragment } from "react-relay";
 import { RepositoriesPaginationQuery } from "./__generated__/RepositoriesPaginationQuery.graphql";
 import { Repositories_repositories$data } from "./__generated__/Repositories_repositories.graphql";
 import { Link } from "react-router-dom";
+import { LoaderElipse } from './../Shared/loaders/Loaders';
+import { TheIcon } from "../Shared/wrappers/TheIcon";
 
 
 dayjs.extend(relativeTime);
@@ -99,7 +101,7 @@ const action = () => {
 
       {repos_data.isLoadingNext ? (
         <div className="w-full flex-center">
-          <Loading size={20} />
+          <LoaderElipse />
         </div>
       ) : null}
     </div>

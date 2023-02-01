@@ -3,16 +3,16 @@ import { graphql } from "relay-runtime";
 
 import { AppPROFILEVIEWERQuery } from "../../__generated__/AppPROFILEVIEWERQuery.graphql";
 import {
-  PreloadedQuery,
+
   useFragment,
   useLazyLoadQuery,
   usePreloadedQuery,
 } from "react-relay";
 import {
   PROFILEVIEWER,
-  ROOTVIEWER,
+
 } from "../../App";
-import { AppROOTVIEWERQuery } from "../../__generated__/AppROOTVIEWERQuery.graphql";
+
 import { ProfileInfo } from "./ProfileInfo";
 import { Repositories } from "../repo/Repositories";
 import { TabItem } from "../Shared/TabItem";
@@ -20,7 +20,7 @@ import { Followers } from "./Followers";
 import { Following } from "./Following";
 import { Profile_user$data } from "./__generated__/Profile_user.graphql";
 import { ProfileVIEWERQuery } from "./__generated__/ProfileVIEWERQuery.graphql";
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLoaderData,} from "react-router-dom";
 interface ProfileProps {}
 
 // type LocationGenerics = MakeGenerics<{

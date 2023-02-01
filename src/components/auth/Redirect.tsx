@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
-import { PBUser } from '../../utils/types/types';
-import { client } from '../../utils/pb/config';
-import { redirect_url, login_url } from '../../utils/env';
-import { LoaderElipse } from './../../shared/loaders/Loaders';
+import { useEffect } from 'react';
+
 import { GithubRawUser, OAuthResponse } from './types';
-import { Record } from 'pocketbase';
+import { useQueryClient } from '@tanstack/react-query';
+import { LoaderElipse } from '../Shared/loaders/Loaders';
+import { login_url, redirect_url } from '../../utils/env';
+import { client } from '../../utils/pb/config';
+import { PBUser } from '../../utils/types/types';
+
 
 interface RedirectProps {
   user?: PBUser;

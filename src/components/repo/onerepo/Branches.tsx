@@ -5,21 +5,19 @@ import {
   usePaginationFragment,
 } from "react-relay/hooks";
 import { FragmentRefs } from "relay-runtime";
-import { TheIcon } from "../../Shared/TheIcon";
 import { Commits } from "./Commits";
 import { BranchesPaginationQuery } from "../__generated__/BranchesPaginationQuery.graphql";
 import {
   Branches_refs$data,
   Branches_refs$key,
 } from "../__generated__/Branches_refs.graphql";
+import { TheIcon } from "../../Shared/wrappers/TheIcon";
 
 interface BranchesProps {
   data: Branches_refs$key | null;
 }
 
-export const Branches: React.FC<
-  BranchesProps
-> = ({ data }) => {
+export const Branches: React.FC<BranchesProps> = ({ data }) => {
   //@ts-ignore
   const fragData = usePaginationFragment<BranchesPaginationQuery,_>(Branchesfragment, data);
   const branches = fragData.data as Branches_refs$data;
