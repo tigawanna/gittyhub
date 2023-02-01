@@ -1,14 +1,12 @@
-
-
-
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
-import { RootLayout } from './components/root/RootLayout';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ReactRouterError } from './components/Shared/errorboundary/ReactRouterError';
 import { AuthLayout } from './components/auth/AuthLayout';
 import { Login } from './components/auth/Login';
-import { GqlErr, useCheckToken } from './utils/useCheckToken';
+import { GqlErr } from './utils/useCheckToken';
 import { AuthRoot } from './components/auth/AuthRoot';
+import { UnAuthedRootLayout } from './components/auth/UnAuthedRootLayout';
+import { Redirect } from './components/auth/Redirect';
+import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
 
 
 
@@ -24,18 +22,27 @@ const UnAuthedApp = ({valid_token}: AppProps) => {
   const ReactRouterRoutes = createBrowserRouter([
         {
             path: '/',
-           element: <AuthLayout valid_token={valid_token} />,
+           element: <UnAuthedRootLayout valid_token={valid_token} />,
             // loader:userLoader(queryClient),
             errorElement: <ReactRouterError />,
             children: [
-            {index:true,element: <AuthRoot/>,
-
-          },
-
-
-
-
-
+            {index:true,element: <AuthRoot/>},
+            {
+            path: '/auth',
+                element: <AuthLayout valid_token={valid_token} />,
+                  children: [
+                      {
+                          index: true,
+                          element: <Login />,
+                          // loader: deferredBlogPostsLoader,
+                      },
+        
+                      {
+                          path: '/auth/redirect',
+                          element: <Redirect />,
+                      }
+                  ],
+              },
             ],
         },
     ]);
