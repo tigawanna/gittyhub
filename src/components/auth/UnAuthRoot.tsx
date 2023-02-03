@@ -1,9 +1,10 @@
 
 import React from 'react'
 import { GqlErr } from '../../utils/useCheckToken';
-import { useLocalStoreValues } from './../../store';
-import { FormInput } from './../Shared/form/FormInput';
+import { useLocalStoreValues } from '../../store';
+import { FormInput } from '../Shared/form/FormInput';
 import { PlainFormButton } from '../Shared/form/FormButton';
+import { OAuthLogin } from './OAuthLogin';
 
 interface LoginProps {
     initerror?: GqlErr | null
@@ -13,7 +14,7 @@ interface RequiredLoginFormFields {
     token: string
 }
 
-export const AuthRoot: React.FC<LoginProps> = ({ initerror }) => {
+export const UnAuthRoot: React.FC<LoginProps> = ({ initerror }) => {
     const local_vals = useLocalStoreValues()
     const [input, setInput] = React.useState<RequiredLoginFormFields>({
         token:local_vals.localValues.ghaccess as string,
@@ -56,7 +57,16 @@ export const AuthRoot: React.FC<LoginProps> = ({ initerror }) => {
     };
 
     return (
-        <div className='w-full min-h-screen h-full flex-center'>
+        <div className='w-full min-h-screen h-full flex flex-col items-center justify-center gap-3'>
+
+            <div className='w-[95%] md:w-[60%] '>
+                <div className='font-bold text bold w-fiull text-center'>
+                    The github Graphql API needs authentication
+                </div>
+
+            </div>
+
+
             <form onSubmit={handleSubmit}
                 className="w-[95%] md:w-[60%] h-full rounded-xl p-5 border-2
                 flex  flex-col items-center justify-center gap-2
@@ -66,7 +76,7 @@ export const AuthRoot: React.FC<LoginProps> = ({ initerror }) => {
                     handleChange={handleChange}
                     input={input}
                     prop="token"
-                    label="Github personal access token"
+                    label="Use Github personal access token"
                 />
                 <PlainFormButton
                     disabled={disableButton(input) || loading}
@@ -75,6 +85,12 @@ export const AuthRoot: React.FC<LoginProps> = ({ initerror }) => {
                 />
 
             </form>
+            <div className='w-[95%] md:w-[60%] '>
+                <div className='text-lg font-bold text bold w-fiull text-center'>
+                    Or Login with
+                </div>
+                <OAuthLogin />
+            </div>
         </div>
     );
 }

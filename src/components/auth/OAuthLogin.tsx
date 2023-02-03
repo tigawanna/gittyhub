@@ -4,6 +4,7 @@ import { getProviders} from '../../utils/pb/config';
 import { useQuery } from '@tanstack/react-query';
 import { redirect_url } from '../../utils/env';
 import { TheIcon } from '../Shared/wrappers/TheIcon';
+import { useLocalStoreValues } from './../../store';
 
 
 interface OAuthLoginProps {
@@ -20,7 +21,7 @@ interface ProvType {
 
 export const OAuthLogin = ({user}: OAuthLoginProps) => {
 // //no-console("inside OAuthLogin component")
-
+  const local_vals  = useLocalStoreValues()
   const query = useQuery(['providers'],getProviders)
   // const navigate = useNavigate();
   // //no-console("user in Login.tsx  ==  ",user)
@@ -41,8 +42,11 @@ export const OAuthLogin = ({user}: OAuthLoginProps) => {
 
     if (typeof window !== 'undefined') {
       window.location.href = url.toString();
+      local_vals.updateIsOauthing(true)
     }
   };
+
+
   const providerIcons = {
     github: FaGithub,
     google: FaGoogle,

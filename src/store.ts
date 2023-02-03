@@ -1,8 +1,5 @@
 import create from "zustand";
-import {
-  persist,
-  devtools,
-} from "zustand/middleware";
+import { persist } from "zustand/middleware";
 
 type User = {
   login: string;
@@ -29,10 +26,12 @@ interface LocalState {
     theme: string | null;
     mainUser?: MainUser;
     ghaccess:string|null;
+    isoauthing:boolean
   };
   updateTheme: (theme: string) => void;
   updateToken: (token: string | null) => void;
   updateGhAccess:(ghaccess:string|null)=>void;
+  updateIsOauthing:(status:boolean)=>void
   updateMainUser: ({
     user,
     error,
@@ -41,14 +40,15 @@ interface LocalState {
 
 export const useLocalStoreValues =
   create<LocalState>()(
-    devtools(
+
       persist(
-        (set, get) => ({
-          localValues: get()?.localValues ?? {
+        (set) => ({
+          localValues: {
             theme: null,
             token: null,
-            mainUser: null,
-            ghaccess:null
+            mainUser: undefined,
+            ghaccess:null,
+            isoauthing:false
           },
   
           updateTheme: (theme) =>
@@ -73,19 +73,29 @@ export const useLocalStoreValues =
               },
             })),
 
+            updateIsOauthing: (status) =>
+            set((state) => ({
+              localValues: {
+                ...state?.localValues,
+                isoauthing:status
+              },
+            })),
+
             updateGhAccess: (ghaccess) =>
             set((state) => ({
               localValues: {
                 ...state?.localValues,
                 ghaccess,
               },
-            })),
+            }),
+        ),
+
         }),
 
         {
           name: "gittyhub",
-          getStorage: () => localStorage,
+         //storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
         }
       )
     )
-  );
+  

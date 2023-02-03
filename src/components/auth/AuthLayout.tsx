@@ -16,7 +16,7 @@ export const AuthLayout = ({}:AuthLayoutProps) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (local_vals.localValues.ghaccess || local_vals.localValues.token) {
+        if ((local_vals.localValues.ghaccess || local_vals.localValues.token) && !local_vals.localValues.isoauthing) {
             navigate('/')
         }
     }, [local_vals.localValues?.ghaccess, local_vals.localValues.token])

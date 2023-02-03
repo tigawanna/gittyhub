@@ -3,7 +3,7 @@ import { ReactRouterError } from './components/Shared/errorboundary/ReactRouterE
 import { AuthLayout } from './components/auth/AuthLayout';
 import { Login } from './components/auth/Login';
 import { GqlErr } from './utils/useCheckToken';
-import { AuthRoot } from './components/auth/AuthRoot';
+import { UnAuthRoot } from './components/auth/UnAuthRoot';
 import { UnAuthedRootLayout } from './components/auth/UnAuthedRootLayout';
 import { Redirect } from './components/auth/Redirect';
 import ErrorBoundary from './components/Shared/errorboundary/ErrorBoundary';
@@ -26,7 +26,7 @@ const UnAuthedApp = ({valid_token}: AppProps) => {
             // loader:userLoader(queryClient),
             errorElement: <ReactRouterError />,
             children: [
-            {index:true,element: <Login/>},
+            {index:true,element: <UnAuthRoot/>},
             {
             path: '/auth',
                 element: <AuthLayout valid_token={valid_token} />,

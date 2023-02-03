@@ -37,8 +37,13 @@ export const Redirect = ({}: RedirectProps) => {
       
       // console.log("adding user access token afetr oauth", oauthRes.meta?.accessToken)
       // localstore.updateToken(oauthRes.meta?.accessToken)
-      localstore.updateGhAccess(oauthRes.meta?.accessToken)
-     
+      console.log("loac store in redirect =====", oauthRes.meta?.accessToken)
+    
+   
+      if (oauthRes.meta?.accessToken){
+        localstore.updateGhAccess(oauthRes.meta?.accessToken)
+        localstore.updateIsOauthing(false)
+      }     
       // console.log("oathRes === ",oauthRes)
       // const rawUser = oauthRes?.meta?.rawUser as GithubRawUser
 
