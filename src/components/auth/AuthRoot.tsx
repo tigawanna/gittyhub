@@ -14,10 +14,11 @@ interface RequiredLoginFormFields {
 }
 
 export const AuthRoot: React.FC<LoginProps> = ({ initerror }) => {
+    const local_vals = useLocalStoreValues()
     const [input, setInput] = React.useState<RequiredLoginFormFields>({
-        token: "",
+        token:local_vals.localValues.ghaccess as string,
     });
-
+    console.log("gh access ===> ", local_vals.localValues.ghaccess)
     const [error, setError] = React.useState({ name: "token", message: initerror?.message as string });
     const [loading, setLoading] = React.useState(false)
 

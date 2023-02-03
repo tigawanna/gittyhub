@@ -28,9 +28,11 @@ interface LocalState {
     token?: string | null;
     theme: string | null;
     mainUser?: MainUser;
+    ghaccess:string|null;
   };
   updateTheme: (theme: string) => void;
   updateToken: (token: string | null) => void;
+  updateGhAccess:(ghaccess:string|null)=>void;
   updateMainUser: ({
     user,
     error,
@@ -46,7 +48,9 @@ export const useLocalStoreValues =
             theme: null,
             token: null,
             mainUser: null,
+            ghaccess:null
           },
+  
           updateTheme: (theme) =>
             set((state) => ({
               localValues: {
@@ -66,6 +70,14 @@ export const useLocalStoreValues =
               localValues: {
                 ...state?.localValues,
                 mainUser: user,
+              },
+            })),
+
+            updateGhAccess: (ghaccess) =>
+            set((state) => ({
+              localValues: {
+                ...state?.localValues,
+                ghaccess,
               },
             })),
         }),

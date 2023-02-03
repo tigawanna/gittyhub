@@ -57,7 +57,7 @@ const token = localValues.token
     );
     
  
-    
+    // console.log("use check token response ===== ",res)
     updateMainUser({ user: res, error: null });
     setError(null)
     setLoading(false)
@@ -88,7 +88,7 @@ else{
 fetchdata();
 }
 
-console.log("token changed  ===== ",token)
+console.log("token changed inside use xheck token ===== ",token)
  },[token])
 return {viewer,error,loading,token}
 

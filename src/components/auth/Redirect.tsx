@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
-
-import { GithubRawUser, OAuthResponse } from './types';
-import { useQueryClient } from '@tanstack/react-query';
-import { LoaderElipse } from '../Shared/loaders/Loaders';
+import {  OAuthResponse } from './types';
 import { login_url, redirect_url } from '../../utils/env';
 import { client } from '../../utils/pb/config';
-import { PBUser } from '../../utils/types/types';
 import { useLocalStoreValues } from './../../store';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,8 +35,9 @@ export const Redirect = ({}: RedirectProps) => {
           redirectUrl
       ) as unknown as OAuthResponse
       
-      console.log("adding user access token afetr oauth", oauthRes.meta?.accessToken)
-      localstore.updateToken(oauthRes.meta?.accessToken)
+      // console.log("adding user access token afetr oauth", oauthRes.meta?.accessToken)
+      // localstore.updateToken(oauthRes.meta?.accessToken)
+      localstore.updateGhAccess(oauthRes.meta?.accessToken)
      
       // console.log("oathRes === ",oauthRes)
       // const rawUser = oauthRes?.meta?.rawUser as GithubRawUser
