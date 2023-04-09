@@ -1,3 +1,57 @@
+
+# GIttyHub
+
+![github](https://user-images.githubusercontent.com/72096712/230766088-2ba5b6ac-0cdd-4311-8396-a327e245867a.jpg)
+
+## **relay**
+
+*Relay is a JavaScript framework for fetching and managing GraphQL data in React applications that emphasizes maintainability, type safety and runtime performance*  <br>
+<br>
+**i'd simply summarize it as  very opinionated**
+
+### [full code](https://github.com/tigawanna/starter-vite-relay)
+ideal use cases for relay
+ - 
+ - ### **Nested compnenets with multiple layers of pagination**<br>
+     this is the main reason i picked it up and i wish i gave it a chance sooner
+      ```ts
+            {!fragData.isLoadingNext &&
+      fragData.hasNext ? (
+        <button
+          className="m-2 hover:text-purple-400 shadow-lg hover:shadow-purple"
+          onClick={() => {
+            fragData.loadNext(5);
+          }}
+        >
+          --- load more ---
+        </button>
+      ) : null}
+      ```
+      with only that snippet it'll fetch the next 5 in the list and automatically mereg them to the previous data , if you've worked with `apollo-client`/`urql`/`react-query` you'll appreciate this simplicity
+
+  - ### **complex application which relies on big queries**
+       composing a framents for every component , then letting their compiler stich them together into the most optimum query is magic
+
+## Downsides
+ - the setup process is tedious and the cmmunity documentatin is really scarce
+ - it doesn't have loading states and error states directly in the query results and you'll have to wrap compnents in `Suspense` and `ErrorBoundary`
+```ts
+  const res = await response.json()
+  if(!response.ok){
+    throw new Error(res.message,res)
+  }
+
+  // Get the response as JSON
+  return res;
+```
+> i also added that snippet to throw an error if the status wasn't ok becasuse errors from this specific graphql api were embedded as the response which would cause relay client to error out withut knowing what specific error was returned 
+
+- the documentation can compund your confusion
+- the prefetching feature in `usePreloadedQuery` which is recomemnded fetch strategy is not supprted in react-router but this can be side sepped by just using `uselazyLadedQuery` instead
+- requires the server to have a [compliant schema](https://relay.dev/docs/next/guides/graphql-server-specification/) 
+in my case am using the github graphql api , but if you had your own server yu culd use something like [Hasura](https://hasura.io/) or just follw the spec specified when making your own
+> you can transform your response before it's passed into the provider if you still want to use it with our current data [like shown in this tutorial](https://dev.to/ttoss/lett-s-go-build-pagination-with-relay-and-react-an-intermediary-tutorial-f89)
+
 <script src="https://cdn.tailwindcss.com"></script>
 # Starter files for vite with react and tailwindcss , react realy for graphql , react-location for routing and zustand for state mangement  
 
@@ -48,56 +102,6 @@ VITE_TOKEN = ghp_TkkntokrntttkeeenKmSFXfQtoktntoktntotk
 ```
 
 you can explore other branches of this repo for more complete projects 
-
-# **relay**
-
-*Relay is a JavaScript framework for fetching and managing GraphQL data in React applications that emphasizes maintainability, type safety and runtime performance*  <br>
-<br>
-**i'd simply summarize it as  very opinionated**
-
-### [full code](https://github.com/tigawanna/starter-vite-relay)
-ideal use cases for relay
- - 
- - ### **Nested compnenets with multiple layers of pagination**<br>
-     this is the main reason i picked it up and i wish i gave it a chance sooner
-      ```ts
-            {!fragData.isLoadingNext &&
-      fragData.hasNext ? (
-        <button
-          className="m-2 hover:text-purple-400 shadow-lg hover:shadow-purple"
-          onClick={() => {
-            fragData.loadNext(5);
-          }}
-        >
-          --- load more ---
-        </button>
-      ) : null}
-      ```
-      with only that snippet it'll fetch the next 5 in the list and automatically mereg them to the previous data , if you've worked with `apollo-client`/`urql`/`react-query` you'll appreciate this simplicity
-
-  - ### **complex application which relies on big queries**
-       composing a framents for every component , then letting their compiler stich them together into the most optimum query is magic
-
-## Downsides
- - the setup process is tedious and the cmmunity documentatin is really scarce
- - it doesn't have loading states and error states directly in the query results and you'll have to wrap compnents in `Suspense` and `ErrorBoundary`
-```ts
-  const res = await response.json()
-  if(!response.ok){
-    throw new Error(res.message,res)
-  }
-
-  // Get the response as JSON
-  return res;
-```
-> i also added that snippet to throw an error if the status wasn't ok becasuse errors from this specific graphql api were embedded as the response which would cause relay client to error out withut knowing what specific error was returned 
-
-- the documentation can compund your confusion
-- the prefetching feature in `usePreloadedQuery` which is recomemnded fetch strategy is not supprted in react-router but this can be side sepped by just using `uselazyLadedQuery` instead
-- requires the server to have a [compliant schema](https://relay.dev/docs/next/guides/graphql-server-specification/) 
-in my case am using the github graphql api , but if you had your own server yu culd use something like [Hasura](https://hasura.io/) or just follw the spec specified when making your own
-> you can transform your response before it's passed into the provider if you still want to use it with our current data [like shown in this tutorial](https://dev.to/ttoss/lett-s-go-build-pagination-with-relay-and-react-an-intermediary-tutorial-f89)
-
 
 
 ### usage 
